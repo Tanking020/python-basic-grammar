@@ -459,4 +459,250 @@ Python-Learning-2026.04.20/
 
 ---
 
+## 2026.04.22
+## Python 列表推导式、字符串操作、元组与数据嵌套实战
+
+**My Python Learning Journey (我的 Python 学习之路)**
+
+转码预备役 | 记录从零开始系统学习 Python
+
+---
+
+## 📚 今日学习内容
+
+| 知识点 | 练习题目 | 状态 |
+|:---|:---|:---:|
+| 列表推导式 | 生成平方列表、条件筛选 | ✅ |
+| 字符串操作 | `find()`、`count()`、`upper()`、`split()`、`strip()`、`replace()` | ✅ |
+| 邮箱格式验证 | `count()` + `in` 运算符 | ✅ |
+| 元组定义 | 单元素元组需要逗号 | ✅ |
+| 元组组包与解包 | `a,b,c = 100,200,300` | ✅ |
+| 元组嵌套 | 学生成绩表 | ✅ |
+| 数据统计 | 总分、平均分、最高/最低分 | ✅ |
+| `\t` 制表符 | 表格对齐 | ✅ |
+
+---
+
+## 💻 代码示例
+
+### 1. 列表推导式
+
+```python
+# 生成1-20的平方列表
+num_list = [i**2 for i in range(1, 21)]
+print(num_list)
+
+# 从列表中提取偶数并计算平方
+num_list = [19, 23, 54, 64, 87, 20, 109, 232, 123, 43, 26, 55, 72]
+num_list2 = [i**2 for i in num_list if i % 2 == 0]
+print(num_list2)
+
+# 提取正数
+list1 = [11, 2, 31, 4, -5, 15, 17, 28, 49, 10, -11, 16, 54, -14, 36, -16, 87, -39]
+list2 = [i for i in list1 if i > 0]
+print(list2)
+```
+
+### 2. 字符串常用操作
+
+```python
+s = "python"
+
+# 查找子串
+print(s.find("th"))   # 2（索引位置）
+
+# 统计次数
+print(s.count("t"))   # 2
+
+# 大小写转换
+print(s.upper())      # PYTHON
+print(s.lower())      # python
+
+# 分割字符串
+print(s.split("t"))   # ['py', 'hon']
+
+# 去除指定字符
+print(s.strip("p"))   # ython
+
+# 替换子串
+print(s.replace("p", "o"))  # oython
+
+# 检查开头
+print(s.startswith("py"))   # True
+
+# 检查存在
+print("th" in s)      # True
+```
+
+### 3. 邮箱格式验证
+
+```python
+email = input("请输入邮箱：")
+if email.count("@") == 1 and "." in email:
+    print("邮箱格式输入正确")
+else:
+    print("邮箱格式输入错误")
+```
+
+### 4. 元组组包与解包
+
+```python
+# 组包：把多个值打包成元组
+a, b, c = 100, 200, 300
+print(a, b, c)  # 100 200 300
+
+# 交换变量（解包）
+c, a, b = a, b, c
+print(a, b, c)  # 200 300 100
+
+# 单元素元组必须有逗号
+t1 = (100,)   # ✅ 元组
+t2 = (100)    # ❌ 整数
+```
+
+### 5. 学生成绩分析（元组嵌套实战）
+
+```python
+students = (
+    ("S001", "王林", 85, 92, 78),
+    ("S002", "李木碗", 92, 88, 95),
+    ("S003", "十三", 78, 85, 82),
+    ("S004", "曾牛", 88, 79, 91),
+    ("S005", "周铁", 95, 96, 89),
+    ("S006", "王卓", 76, 82, 77),
+    ("S007", "红蝶", 89, 91, 94),
+    ("S008", "徐利果", 75, 69, 82),
+    ("S009", "许木", 86, 89, 98),
+    ("S010", "遁天", 66, 59, 72),
+)
+
+# 打印表格（使用 \t 对齐）
+print("学号\t姓名\t语文\t数学\t英语\t总分\t平均分")
+
+for stu_id, name, chinese, math, english in students:
+    total = chinese + math + english
+    avg = total / 3
+    print(f"{stu_id}\t{name}\t{chinese}\t{math}\t{english}\t{total}\t{avg:.1f}")
+
+# 统计各科最高/最低分
+chinese_scores = [s[2] for s in students]
+math_scores = [s[3] for s in students]
+english_scores = [s[4] for s in students]
+
+print(f"语文：最高{max(chinese_scores)}，最低{min(chinese_scores)}")
+print(f"数学：最高{max(math_scores)}，最低{min(math_scores)}")
+print(f"英语：最高{max(english_scores)}，最低{min(english_scores)}")
+
+# 找出平均分大于90的学生
+for stu_id, name, chinese, math, english in students:
+    if (chinese + math + english) / 3 > 90:
+        print(f"{name}是优秀学生")
+```
+
+---
+
+## 🧠 核心知识点总结
+
+### 1. 列表推导式语法
+
+```python
+# 基础语法
+[表达式 for 变量 in 可迭代对象]
+
+# 带条件
+[表达式 for 变量 in 可迭代对象 if 条件]
+
+# 示例
+[i**2 for i in range(1, 21)]                    # 平方列表
+[i for i in list1 if i > 0]                     # 筛选正数
+[i**2 for i in num_list if i % 2 == 0]          # 偶数平方
+```
+
+### 2. 字符串 vs 列表
+
+| 特性 | 列表 | 字符串 |
+|:---|:---|:---|
+| 可变性 | ✅ 可变 | ❌ 不可变 |
+| 修改操作 | 修改原列表，返回 `None` | 返回新字符串 |
+| 典型操作 | `append()`、`pop()`、`sort()` | `upper()`、`replace()`、`split()` |
+
+### 3. 元组要点
+
+```python
+# 定义
+t = (1, 2, 3)           # 元组
+t = (100,)              # 单元素元组（必须有逗号）
+t = 100, 200, 300       # 不加括号也可以
+
+# 只有两种查询操作
+t.index(100)   # 查找位置
+t.count(100)   # 统计次数
+
+# 组包与解包
+a, b, c = 100, 200, 300      # 组包
+c, a, b = a, b, c            # 解包交换
+```
+
+### 4. 字符串常用方法
+
+| 方法 | 作用 | 返回值 |
+|:---|:---|:---|
+| `s.find(sub)` | 查找子串 | 索引（找不到返回-1） |
+| `s.count(sub)` | 统计次数 | 整数 |
+| `s.upper()` | 转大写 | 新字符串 |
+| `s.lower()` | 转小写 | 新字符串 |
+| `s.split(sep)` | 分割 | 列表 |
+| `s.strip(chars)` | 去除两端字符 | 新字符串 |
+| `s.replace(old, new)` | 替换 | 新字符串 |
+| `s.startswith(prefix)` | 检查开头 | `True`/`False` |
+| `sub in s` | 检查存在 | `True`/`False` |
+
+### 5. `\t` 制表符
+
+- 作用：对齐文本，跳到下一个制表位
+- 常用场景：打印表格、对齐多列数据
+- 与空格的区别：自动对齐，不受内容长度影响
+
+---
+
+## 🐛 今日易错点
+
+| 易错点 | 正确理解 |
+|:---|:---|
+| `(100)` 是元组吗？ | ❌ 不是，是整数。元组需要逗号 `(100,)` |
+| 字符串方法修改原字符串？ | ❌ 不修改，返回新字符串 |
+| `s.find()` 找不到返回什么？ | 返回 `-1`（不报错） |
+| 列表推导式 `if` 放哪里？ | 放在 `for` 后面 |
+
+---
+
+## 📁 文件结构
+
+```
+Python-Learning-2026.04.22/
+├── README.md
+├── 01_list_comprehension.py   # 列表推导式
+├── 02_string_operations.py    # 字符串操作
+├── 03_email_validate.py       # 邮箱验证
+├── 04_tuple_pack_unpack.py    # 元组组包解包
+└── 05_student_scores.py       # 学生成绩分析
+```
+
+---
+
+## 🔄 后续计划
+
+- [ ] 字典与集合操作
+- [ ] 函数基础（定义、参数、返回值）
+- [ ] 文件读写操作
+
+---
+
+## 📖 参考资料
+
+- [Python 官方文档](https://docs.python.org/3/)
+- [廖雪峰 Python 教程](https://www.liaoxuefeng.com/wiki/1016959663602400)
+
+---
+
 *持续更新中...* 🚀

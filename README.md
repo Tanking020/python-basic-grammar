@@ -836,3 +836,221 @@ for k, v in gwc.items():
 ---
 
 *今日代码已全部测试通过，运行正常！* ✅
+
+## 2026.04.26
+## Python 函数核心知识点总结
+
+**My Python Learning Journey (我的 Python 学习之路)**
+
+转码预备役 | 记录从零开始系统学习 Python
+
+---
+
+## 📚 今日学习内容
+
+| 知识点 | 状态 | 核心要点 |
+|:---|:---:|:---|
+| 函数定义与调用 | ✅ | 先定义后调用，形参与实参 |
+| 函数嵌套调用 | ✅ | 栈结构（后进先出） |
+| 全局变量与局部变量 | ✅ | `global` 声明，作用域区别 |
+| 参数传递方式 | ✅ | 位置参数 → 关键字参数 |
+| 不定长参数 | ✅ | `*args`（元组）、`**kwargs`（字典） |
+| 函数作为参数 | ✅ | 高阶函数基础 |
+| 匿名函数 | ✅ | `lambda` 表达式 |
+| 递归函数 | ✅ | 函数调用自身，栈的思维 |
+| 类型注解 | ✅ | `参数: 类型`、`-> 返回值类型` |
+
+---
+
+## 🧠 核心知识点
+
+### 1. 全局变量与局部变量
+
+```python
+num = 1  # 全局变量
+
+def test():
+    local_var = 10      # 局部变量，函数结束后销毁
+    global num2         # 声明全局变量（只能声明，不能赋值）
+    num2 = num + 1      # 修改全局变量
+    return local_var
+
+test()
+print(num2)     # ✅ 2
+# print(local_var)  # ❌ 局部变量外部不可访问
+```
+
+| 变量类型 | 作用域 | 生命周期 | 声明方式 |
+|:---|:---|:---|:---|
+| 全局变量 | 整个模块 | 程序运行期间 | 函数外直接定义 |
+| 局部变量 | 函数内部 | 函数调用期间 | 函数内直接定义 |
+| 全局变量（函数内修改） | 整个模块 | 程序运行期间 | `global x` |
+
+---
+
+### 2. 参数传递规则
+
+```python
+def func(a, b, c=0, *args, **kwargs):
+    print(a, b, c, args, kwargs)
+
+# 规则：位置参数 → 关键字参数 → *args → **kwargs
+func(1, 2, 3, 4, 5, name="张三", age=18)
+# a=1, b=2, c=3, args=(4,5), kwargs={'name':'张三','age':18}
+```
+
+| 参数类型 | 写法 | 打包类型 | 调用方式 |
+|:---|:---|:---|:---|
+| 位置参数 | `a, b` | - | `func(1, 2)` |
+| 默认参数 | `c=0` | - | `func(1, 2)` 或 `func(1, 2, 3)` |
+| 不定长位置 | `*args` | 元组 | `func(1, 2, 3, 4, 5)` |
+| 不定长关键字 | `**kwargs` | 字典 | `func(1, 2, name="张三")` |
+
+**混用规则**：位置参数 → 关键字参数 → `*args` → `**kwargs`
+
+---
+
+### 3. 递归函数
+
+```python
+def factorial(n):
+    if n == 0:          # 递归结束条件（必须）
+        return 1
+    return n * factorial(n - 1)  # 调用自身
+
+print(factorial(5))  # 120
+```
+
+**递归的栈逻辑**：
+```
+factorial(5) 压栈
+  → factorial(4) 压栈
+    → factorial(3) 压栈
+      → factorial(2) 压栈
+        → factorial(1) 压栈
+          → factorial(0) 压栈 → 返回 1
+        ← 返回 1 * 1 = 1
+      ← 返回 2 * 1 = 2
+    ← 返回 3 * 2 = 6
+  ← 返回 4 * 6 = 24
+← 返回 5 * 24 = 120
+```
+
+| 与 while 循环 | 关系 |
+|:---|:---|
+| 任何递归都能改写成 while | ✅ |
+| 任何 while 都能改写成递归 | ✅ |
+| Python 递归深度限制 | 默认 1000 |
+
+---
+
+### 4. 匿名函数（lambda）
+
+```python
+# 传统函数
+def add(x, y):
+    return x + y
+
+# lambda 表达式（相同功能）
+add2 = lambda x, y: x + y
+
+print(add(3, 4))    # 7
+print(add2(1, 2))   # 3
+```
+
+**语法**：`lambda 参数: 表达式`
+
+| 特点 | 说明 |
+|:---|:---|
+| 不需要 `return` | 表达式结果自动返回 |
+| 不能换行 | 只能写单行表达式 |
+| 通常用作参数 | 高阶函数常用 |
+
+---
+
+### 5. 类型注解
+
+```python
+# 变量类型注解
+a: int = 695
+names: list[str] = ["A", "C", "E"]
+options: dict[str, int] = {"count": 2, "total": 10}
+
+# 函数类型注解
+def process(data: tuple[str, float, int], coupon: int = 0) -> tuple[int, int, float]:
+    return (len(data[0]), int(data[1]), data[2] + 0.5)
+
+# 多种可能类型
+def parse(x: int | float | str) -> int | None:
+    return int(x) if str(x).isdigit() else None
+```
+
+| 注解位置 | 语法 | 示例 |
+|:---|:---|:---|
+| 参数 | `参数名: 类型` | `scores: list[int]` |
+| 返回值 | `-> 类型` | `-> bool` |
+| 多种类型 | `\|`（Python 3.10+） | `int \| float` |
+
+**注意**：类型注解**不影响运行**，只提供 IDE 提示和代码可读性。
+
+---
+
+## 🐛 今日易错点
+
+| 易错点 | 正确理解 |
+|:---|:---|
+| `global num = 5` | ❌ `global` 只能声明，不能赋值 |
+| `*args: tuple[str,int]` | ❌ `*args` 不能这样限制固定长度 |
+| 局部变量外部访问 | ❌ 函数调用后局部变量销毁 |
+| 参数顺序 | 位置参数必须在关键字参数前 |
+| 递归无结束条件 | ❌ 会无限递归导致栈溢出 |
+
+---
+
+## 📁 代码示例
+
+### 商品价格计算（不定长参数 + 默认参数）
+
+```python
+def goods_test(*args, coupon=0, score=0, express=0.0):
+    """
+    计算商品最终价格
+    args: (商品名, 价格, 数量) 的元组
+    """
+    # 计算总价
+    total = sum(goods[1] * goods[2] for goods in args)
+    
+    # 扣减优惠券
+    if total >= 5000:
+        total -= coupon
+    
+    # 积分抵扣（每100积分抵扣1元）
+    if total >= 5000:
+        total -= score // 100
+    
+    return total + express
+
+# 调用
+result = goods_test(("电脑", 6000, 1), ("手机", 2000, 1), 
+                    coupon=2000, score=100, express=73.5)
+print(result)  # 6173.5
+```
+
+---
+
+## 🔄 后续计划
+
+- [ ] 数据结构与算法（数组、链表、栈、队列）
+- [ ] LeetCode 刷题
+- [ ] 面向对象基础（暂缓）
+
+---
+
+## 📖 参考资料
+
+- [Python 官方文档](https://docs.python.org/3/)
+- [廖雪峰 Python 教程](https://www.liaoxuefeng.com/wiki/1016959663602400)
+
+---
+
+*持续更新中...* 🚀

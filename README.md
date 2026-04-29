@@ -1,4 +1,4 @@
-# python-basic
+# python-basic-grammar
 basic-grammar
 # Python 基础练习：循环与条件判断
 

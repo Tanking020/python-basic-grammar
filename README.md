@@ -1,5 +1,5 @@
 # python-basic-grammar
-basic-grammar
+basic-grammar-learning
 # Python 基础练习：循环与条件判断
 
 **学习日期**：2026.04.19
